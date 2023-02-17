@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>  
+    <data>
+        <record id="ati_report_sale_wizard_form" model="ir.ui.view">
+            <field name="name">Reporte de Ventas por vendedor</field>
+            <field name="model">ati.sale.report.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de Ganancias">
+                    <group>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                    <footer>
+                        <!-- a button to start the download process -->                       
+                        <button name="get_pdf_report" string="Descargar (PDF)" type="object" class="btn-primary"/>
+                        <!-- a cancel button to close the form -->
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record> 
+
+        <act_window id="action_open_ati_report_sale_wizard_form"
+                name="Reporte de Ventas"
+                res_model="ati.sale.report.wizard"
+                view_mode="form"
+                target="new"/>
+         
+        <menuitem name="Reporte de Ventas"
+                id="menu_report_sale_custom"
+                parent="point_of_sale.menu_point_of_sale"
+                action="action_open_ati_report_sale_wizard_form" />
+ 
+         
+    </data>
+</odoo>

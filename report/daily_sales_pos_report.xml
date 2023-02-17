@@ -1,0 +1,78 @@
+<odoo>
+    <record model="report.paperformat" id="paperformat_report_ati_daily_sale">
+        <field name="name">Reporte POS Ventas</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_width">80</field>
+        <field name="page_height">120</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_right">1</field>
+        <field name="margin_bottom">25</field>
+        <field name="margin_left">1</field>
+        <field name="header_line" eval="True"/>
+        <field name="header_spacing">25</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="pos_daily_report"
+            model="ati.sale.report.wizard"
+            string="Reporte Diario POS"
+            report_type="qweb-pdf"
+            name="ati_daily_sales_report_pos.report_ati_daily_sale"
+            paperformat="paperformat_report_ati_daily_sale"
+            menu="False"/>
+
+    <template id="report_ati_daily_sale">
+        <div class="header" style="border-bottom: 2px solid black">
+            <h3 class="text-center">Reporte de venta</h3>
+            <h4 class="text-center">
+                <strong>Desde</strong>:
+                <t t-esc="date_start"/>
+            </h4>
+            <h4 class="text-center">
+                <strong>Hasta</strong>:
+                <t t-esc="date_end"/>
+            </h4>
+        </div>
+        <div class="article">
+            <table class="table table-condensed table-bordered" style="width: 100%">
+                <thead>
+                    <th class="text-center" style="width: 70%">Tipo</th>
+                    <th class="text-center" style="width: 15%">Total</th>
+                </thead>
+                <tbody>
+                    <t t-foreach="categories" t-as="doc">
+                        <tr>
+                            <td>
+                                <span t-esc="doc['categoria']"/>
+                            </td>
+                            <td class="text-center">
+                                $<span t-esc="'{:,.2f}'.format(doc['total'])"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+        <div class="footer">
+            <div class="row text-center" style="border-top: 1px solid black;">
+                <strong>Total de ventas</strong>: $<t t-esc="'{:,.2f}'.format(total_ventas)"/>
+                <strong>Cantidad de ventas</strong>: <t t-esc="cant_ventas"/>
+                <strong>Promedio de ventas</strong>: $<t t-esc="'{:,.2f}'.format(total_ventas / cant_ventas)"/>
+                <div class="col-xs-3 col-xs-offset-9 text-right">
+                    <ul class="list-inline" style="margin-top:10px;">
+                        <li>Page:</li>
+                        <li>
+                            <span class="page"/>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <span class="topage"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
